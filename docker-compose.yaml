@@ -1,0 +1,32 @@
+services:
+  db:
+    image: postgres:17
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    env_file: ./backend/core/.env.prod
+
+  django-backend:
+    build: ./backend/core
+    container_name: django-docker
+    depends_on:
+      - db
+    volumes:
+      - static_files:/app/staticfiles
+    env_file: ./backend/core/.env.prod
+    # No ports exposed! It's hidden behind the frontend proxy.
+
+  frontend:
+    build: ./frontend/viteprj
+    container_name: react-app
+    ports:
+      - "8001:80" # This is the ONLY entry point for the user
+    depends_on:
+      - django-backend
+    volumes:
+      - static_files:/app/staticfiles
+
+volumes:
+  postgres_data:
+  static_files:
