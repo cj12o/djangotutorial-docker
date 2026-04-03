@@ -2,3 +2,4 @@ venv
 .env.local
 .env.prod
 .env
+AwsChitransh208.pem

@@ -21,7 +21,7 @@ services:
     build: ./frontend/viteprj
     container_name: react-app
     ports:
-      - "8001:80" # This is the ONLY entry point for the user
+      - "80:80" # This is the ONLY entry point for the user
     depends_on:
       - django-backend
     volumes:
